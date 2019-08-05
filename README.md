@@ -1,2 +1,2 @@
 # auth
-a simple general purpose authentication service
+a simple general purpose REST authentication service
