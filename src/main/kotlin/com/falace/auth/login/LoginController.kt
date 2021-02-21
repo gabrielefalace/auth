@@ -1,6 +1,5 @@
 package com.falace.auth.login
 
-import com.falace.auth.reset.PendingResetRequestService
 import com.falace.auth.user.UserDto
 import com.falace.auth.user.UserService
 import com.falace.auth.utils.bCryptPasswordEncoder
@@ -13,7 +12,7 @@ import java.util.*
 
 
 @RestController
-class LoginController(val userService: UserService, val pendingResetRequestService: PendingResetRequestService) {
+class LoginController(val userService: UserService) {
 
     @Value("\${auth.login.restrictVerified}")
     var onlyVerifiedUsers: Boolean = false
@@ -25,7 +24,6 @@ class LoginController(val userService: UserService, val pendingResetRequestServi
     fun login(@RequestBody userDto: UserDto): String {
         val user = userService.findSingleUserByEmail(userDto.email, onlyVerifiedUsers)
         if (bCryptPasswordEncoder.matches(userDto.password, user.hashedPassword)) {
-            pendingResetRequestService.deleteAllMatching(userDto.email)
             return createJWT(UUID.randomUUID().toString(), "Auth-Falace", user.email, secretKey)
         }
         throw IllegalAccessException("Bad Credentials!")
