@@ -32,6 +32,11 @@ To run on HTTPS, recommended in real world scenario, just run
 with `-Dspring.profiles.active=secure` the `application-secure.yml` config file contains configuration to use 
 a certificate. In order to call endpoints with cURL the `-k` option needs to be used, otherwise it will 
 complain that the certificate is self-signed.
+
+To request a token
+```
+curl -X POST -H "Content-Type: application/json" -d '{"email": "gabrielefalace@gmail.com", "password": "type_pw_here"}' http://127.0.0.1:8080/login
+```
  
 
 ##### Further improvement
