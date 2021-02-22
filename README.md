@@ -1,6 +1,14 @@
 # Auth Server
 
-##### Assumptions, choices
+
+= = = = = 
+
+:warning: 
+at the moment this only returns a short-lived (5 minutes) access token. Needs to be extended to use proper refresh/access token mechanism.
+
+= = = = = 
+
+##### Assumptions/Context
 
 The Registration functionality sends an email with a link to verify the user's email address. 
 The Login functionality can be configured from the YML file to either accept all registered users or only those who verified their email. 
