@@ -5,6 +5,7 @@ import com.falace.auth.user.UserService
 import com.falace.auth.utils.bCryptPasswordEncoder
 import com.falace.auth.utils.createJWT
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -20,6 +21,7 @@ class LoginController(val userService: UserService) {
     @Value("\${auth.secretKey}")
     var secretKey: String = ""
 
+    @CrossOrigin(origins = ["*"])
     @PostMapping("/login")
     fun login(@RequestBody userDto: UserDto): String {
         val user = userService.findSingleUserByEmail(userDto.email, onlyVerifiedUsers)
