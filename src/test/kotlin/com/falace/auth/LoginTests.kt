@@ -24,8 +24,7 @@ class LoginTests {
     val USER_EMAIL = "gabrielefalace@gmail.com"
     val PASSWORD = "pollo-666"
 
-    @Value("\${server.address}")
-    var address: String = ""
+    var address: String = "localhost"
 
     @LocalServerPort
     var port: Int = 0
