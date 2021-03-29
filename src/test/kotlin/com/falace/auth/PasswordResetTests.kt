@@ -4,7 +4,7 @@ import com.falace.auth.reset.PendingResetRequestRepo
 import com.falace.auth.user.User
 import com.falace.auth.user.UserRepo
 import com.falace.auth.utils.bCryptPasswordEncoder
-import com.mongodb.MongoClient
+import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

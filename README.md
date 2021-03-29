@@ -10,6 +10,14 @@ at the moment this only returns a short-lived (5 minutes) access token. Needs to
 
 ##### Assumptions/Context
 
+The library used is https://www.jsonwebtoken.io
+
+To generate HMAC secret use this.
+```
+>>> import secrets
+>>> secrets.token_urlsafe(512)
+```
+
 The Registration functionality sends an email with a link to verify the user's email address. 
 The Login functionality can be configured from the YML file to either accept all registered users or only those who verified their email. 
 

@@ -17,6 +17,8 @@ class RegistrationController(
         val userService: UserService
 ) {
 
+    @Value("\${auth.registration.emailVerification}")
+    var isEmailVerificationRequired = false
 
     @Value("\${server.address}")
     var address: String = ""
@@ -28,20 +30,14 @@ class RegistrationController(
     lateinit var mailSender: JavaMailSender
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     fun register(@RequestBody userDto: UserDto): String {
         require(!registrationService.isAlreadyRegistered(userDto.email)) {
             "Error: user ${userDto.email} is already registered!"
         }
         registrationService.registerUser(userDto.email, userDto.password)
-        val token = UUID.randomUUID()
-        val url = "http://$address:$port/verify-registration?email=${userDto.email}&token=$token"
-        val text = "To verify your registration click $url"
-        val email = composeEmail(userDto.email, "Please verify your email", text)
-        mailSender.send(email)
-        registrationService.deletePendingRegistrationVerification(userDto.email)
-        registrationService.saveRegistrationVerification(RegistrationVerification(userDto.email, token.toString()))
-        return url
+        return if(isEmailVerificationRequired)
+            requestEmailVerification(userDto) else ""
     }
 
     @GetMapping("/verify-registration")
@@ -55,4 +51,15 @@ class RegistrationController(
         registrationService.deletePendingRegistrationVerification(email)
     }
 
+
+    internal fun requestEmailVerification(userDto: UserDto): String {
+        val token = UUID.randomUUID()
+        val url = "http://$address:$port/verify-registration?email=${userDto.email}&token=$token"
+        val text = "To verify your registration click $url"
+        val email = composeEmail(userDto.email, "Please verify your email", text)
+        mailSender.send(email)
+        registrationService.deletePendingRegistrationVerification(userDto.email)
+        registrationService.saveRegistrationVerification(RegistrationVerification(userDto.email, token.toString()))
+        return url
+    }
 }

@@ -1,6 +1,6 @@
 server:
   address: localhost
-  port: 8080
+  port: 8087
 spring:
   data:
     mongodb:
@@ -24,6 +24,8 @@ spring:
             enable: true
 
 auth:
+  registration:
+    emailVerification: false
   login:
     restrictVerified: false
-  secretKey: "somepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwd"
+  secretKey: "odxMzgKll_524v_YiyhfmmnSG5Pj-gF8uQ9xW8prTicWAKRt8YbrRxe735yXX2Pkkfj5bx4f-U2gJjGJ8O8-Yw2U4QavNEQ6lS2-oYV5KXGOV-T-zaPXyq7d_tU_mxsi7VOlty5t4nJ3mKpv6KzA-wthhQZsg6aIltDICtvIUiYSllNF6eILrKHtUCs8W-7b1g7jmBcmtFvK3Qx-hHULtAEo1jAa1qitbh3lI3v8dbzw_un8UIp5BDL6w_net_sb3lQQPtCMR5_hMXX3uVvme0lgqpkWEKvuDf1H5dUCQLCTay4g6U7XJe8avXogmvlKHYUtyMP-CsVlO2zkort96KXhILHcs7X1WbDuOgnAH9Ah-F9rxoQgjcVOHHX5r3LLrTlbnj4TCjZ8q0c48PhGkYR1PeXyBni_Ffvqcvf3KlTUBDt0bgRJjgfLhFCtwiGbNrsexecUfd2cGZhBXQM3enepwMdPZzUS_MBDQfrogHGRsaN5EVdKwFz22kosrlTvD7KrvW_IaXrGDPyicPz0ocsb7EUK80BGZXkCh-X2MbBC_ukAQZo3Z_NY1z7pDL4aYppME0WQp7pUbe2yx_m83EWINWsgN94UIiunj1GBhzY7YS8Fh5bx9C0R9MDrjwTs2mI5f2QZS4X_EbSLEQgjeb53Lp0NtxeKeRZTZjBhUQ4"

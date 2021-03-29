@@ -1,7 +1,7 @@
 package com.falace.auth
 
 import com.falace.auth.user.UserDto
-import com.mongodb.MongoClient
+import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
