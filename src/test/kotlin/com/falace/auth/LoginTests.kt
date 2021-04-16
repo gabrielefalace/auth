@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.test.web.client.postForEntity
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.net.URL
 import kotlin.test.assertEquals
@@ -28,6 +30,9 @@ class LoginTests {
 
     @Value("\${server.address}")
     var address: String = ""
+
+    @Value("\${auth.secretKey}")
+    var secretKey: String = ""
 
     @LocalServerPort
     var port: Int = 0
@@ -58,7 +63,7 @@ class LoginTests {
         val userData = UserDto(USER_EMAIL, PASSWORD)
         val response = restTemplate.postForEntity(url, userData, String::class.java)
         assertEquals(HttpStatus.OK, response.statusCode)
-        val claims = decodeJwt(response.body!!, "somepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwdsomepwd")
+        val claims = decodeJwt(response.body!!, secretKey)
         assertEquals("Auth-Falace", claims.issuer)
         assertEquals(USER_EMAIL, claims.subject)
     }

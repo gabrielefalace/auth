@@ -26,7 +26,7 @@ class LoginController(val userService: UserService, val pendingResetRequestServi
         val user = userService.findSingleUserByEmail(userDto.email, onlyVerifiedUsers)
         if (bCryptPasswordEncoder.matches(userDto.password, user.hashedPassword)) {
             pendingResetRequestService.deleteAllMatching(userDto.email)
-            return createJWT(UUID.randomUUID().toString(), "Auth-Falace", user.email, secretKey)
+            return createJWT("some_subject", "Auth-Falace", "100000", secretKey)
         }
         throw IllegalAccessException("Bad Credentials!")
     }
