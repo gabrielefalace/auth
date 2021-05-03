@@ -1,6 +1,14 @@
 server:
   address: localhost
-  port: 8087
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/keystore.p12
+    key-store-password: changeit
+    keyAlias: falace_cert
+    protocol: TLS
+    enabled-protocols: TLSv1.2
 spring:
   data:
     mongodb:

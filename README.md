@@ -53,7 +53,25 @@ To request a token
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"email": "gabrielefalace@gmail.com", "password": "type_pw_here"}' http://127.0.0.1:8080/login
 ```
- 
+
+##### Using a self-signed cert
+
+Generate with:
+```
+keytool -genkeypair -alias falace_cert -keyalg RSA -keysize 4096 \
+  -validity 3650 -dname "CN=localhost" -keypass changeit -keystore keystore.p12
+```
+Extract the certificate part from the p12:
+```
+openssl pkcs12 -in keystore.p12 -out cacerts.crt -nokeys
+```
+and call the service like:
+```
+curl -vvv --cacert ~/IdeaProjects/auth/src/main/resources/keystore/cacerts.crt  
+     -X POST -H 'Content-Type: application/json' 
+     -d '{"email": "gabriele.falaciotto@gmail.com","password": <password_here>}' 
+     https://localhost:8443/login
+```
 
 ##### Further improvement
 * Improving names of Endpoints and HTTP methods used
