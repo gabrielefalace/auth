@@ -5,9 +5,11 @@ import com.falace.auth.user.UserService
 import com.falace.auth.utils.composeEmail
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.web.bind.annotation.*
+import java.net.InetAddress
 import java.util.*
 
 
@@ -20,11 +22,10 @@ class RegistrationController(
     @Value("\${auth.registration.emailVerification}")
     var isEmailVerificationRequired = false
 
-    @Value("\${server.address}")
-    var address: String = ""
+    var address: String = InetAddress.getLocalHost().hostAddress
 
     @Value("\${server.port}")
-    var port: String = ""
+    var port: Int = 80
 
     @Autowired
     lateinit var mailSender: JavaMailSender

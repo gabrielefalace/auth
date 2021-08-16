@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.web.bind.annotation.*
+import java.net.InetAddress
 import java.time.Instant
 import java.util.*
 
@@ -20,8 +21,7 @@ class PasswordResetController(
 
     val SECONDS_2_DAYS = 172_800
 
-    @Value("\${server.address}")
-    var address: String = ""
+    var address: String = InetAddress.getLocalHost().hostAddress
 
     @Value("\${server.port}")
     var port: String = ""
