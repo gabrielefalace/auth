@@ -28,4 +28,4 @@ auth:
     emailVerification: false
   login:
     restrictVerified: false
-  secretKey:
+  secretKey: from_config

@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -16,8 +17,8 @@ import org.springframework.test.context.ActiveProfiles
 import java.net.URL
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
-class RegistrationTests {
+@ActiveProfiles("test-verification")
+class RegistrationVerificationTests {
 
     val USER_EMAIL = "gabriele.falace@gmail.com"
     val PASSWORD = "pollo"
@@ -42,24 +43,18 @@ class RegistrationTests {
         db.drop()
     }
 
+    @Disabled("Requires configuring Email credentials / use for manual tests until automated")
     @Test
-    fun `Simple registration should work`() {
+    fun `Simple registration with verification should work`() {
         val url = URL("http://$address:$port/register").toString()
         val userData = UserDto(USER_EMAIL, PASSWORD)
         val response = restTemplate.postForEntity(url, userData, String::class.java)
         Assertions.assertEquals(HttpStatus.CREATED, response.statusCode)
+        val verificationLinkParams = response.body!!.split("?")[1]
+        val verifyResponse =
+            restTemplate.getForEntity("http://$address:$port/verify-registration?" + verificationLinkParams, Any::class.java)
+        Assertions.assertEquals(HttpStatus.OK, verifyResponse.statusCode)
     }
 
-
-
-    @Test
-    fun `Registering twice the same email should fail`() {
-        val url = URL("http://$address:$port/register").toString()
-        val userData = UserDto(USER_EMAIL, PASSWORD)
-        val response = restTemplate.postForEntity(url, userData, String::class.java)
-        Assertions.assertEquals(HttpStatus.CREATED, response.statusCode)
-        val response2 = restTemplate.postForEntity(url, userData, String::class.java)
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response2.statusCode)
-    }
 
 }

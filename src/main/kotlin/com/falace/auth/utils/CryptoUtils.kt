@@ -1,20 +1,16 @@
 package com.falace.auth.utils
 
-import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm.HS512
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.time.Instant
 import java.util.*
 import javax.crypto.spec.SecretKeySpec
-import kotlin.collections.HashMap
 
+const val ISSUER = "Wino-Auth"
 const val BCRYPT_STRENGTH = 12
 
 val bCryptPasswordEncoder = BCryptPasswordEncoder(BCRYPT_STRENGTH)
-
-fun decodeJwt(jwt: String, hmacSecret: String): Claims =
-    Jwts.parser().setSigningKey(hmacSecret.toByteArray()).parseClaimsJws(jwt).body
 
 
 /**
@@ -27,7 +23,7 @@ fun createJWT(id: String, issuer: String, subject: String, hmacSecret: String, t
     require(ttlMillis > 0)
     val now = Instant.now()
     val claims = TreeMap<String, String>()
-    claims["role"] = "clinic_staff"
+    claims["role"] = "user"
 
     return Jwts.builder()
         .setClaims(claims as Map<String, Any>?)
