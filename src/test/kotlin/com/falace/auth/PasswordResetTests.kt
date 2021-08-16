@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -19,6 +20,7 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import java.net.URI
 
+@Disabled("Requires configuring Email credentials / use for manual tests until automated")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PasswordResetTests {
 
