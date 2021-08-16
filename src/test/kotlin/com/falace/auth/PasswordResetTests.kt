@@ -18,10 +18,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.patchForObject
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.ActiveProfiles
 import java.net.URI
 
 @Disabled("Requires configuring Email credentials / use for manual tests until automated")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class PasswordResetTests {
 
     val USER_EMAIL = "gabriele.falace@gmail.com"
