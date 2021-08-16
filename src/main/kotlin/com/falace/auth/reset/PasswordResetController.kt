@@ -12,6 +12,7 @@ import java.net.InetAddress
 import java.time.Instant
 import java.util.*
 
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 class PasswordResetController(
         val pendingResetRequestService: PendingResetRequestService,

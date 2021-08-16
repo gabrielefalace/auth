@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 import java.net.InetAddress
 import java.util.*
 
-
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 class RegistrationController(
         val registrationService: RegistrationService,

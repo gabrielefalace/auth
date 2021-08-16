@@ -7,12 +7,13 @@ import com.falace.auth.utils.ISSUER
 import com.falace.auth.utils.bCryptPasswordEncoder
 import com.falace.auth.utils.createJWT
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
-
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 class LoginController(val userService: UserService, val pendingResetRequestService: PendingResetRequestService) {
 
