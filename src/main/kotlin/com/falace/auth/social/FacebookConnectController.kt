@@ -1,10 +1,7 @@
 package com.falace.auth.social
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -18,9 +15,9 @@ class FacebookConnectController {
     @Value("\${social.facebook.appToken}")
     var appToken: String = ""
 
-    @PostMapping("/connect-facebook")
+    @GetMapping("/connect-facebook")
     fun connectFacebook(
-        @RequestParam userAccessToken: String,
+        @RequestParam("input-token") userAccessToken: String,
         @RequestParam email: String
     ) {
 
