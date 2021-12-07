@@ -23,7 +23,7 @@ class FacebookConnectController {
     ) {
 
         val response = RestTemplate().getForEntity(
-            URI("https://graph.facebook.com/debug_token?input_token=$userAccessToken&access_token=$appToken"),
+            URI("https://graph.facebook.com/debug_token?input_token=$userAccessToken&access_token='$appToken'"),
             Any::class.java
         )
 
