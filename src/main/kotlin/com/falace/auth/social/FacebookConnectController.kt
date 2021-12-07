@@ -21,9 +21,9 @@ class FacebookConnectController {
         @RequestParam("input-token") userAccessToken: String,
         @RequestParam email: String
     ) {
-
+        val appAccessToken = appToken.replace("|", "%7C")
         val response = RestTemplate().getForEntity(
-            URI("https://graph.facebook.com/debug_token?input_token=$userAccessToken&access_token='$appToken'"),
+            URI("https://graph.facebook.com/debug_token?input_token=$userAccessToken&access_token=$appAccessToken"),
             Any::class.java
         )
 
