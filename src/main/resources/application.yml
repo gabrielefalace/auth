@@ -28,7 +28,3 @@ auth:
   login:
     restrictVerified: false
   secretKey: from_config
-
-social:
-  facebook:
-    appToken: FB_APP_TOKEN
