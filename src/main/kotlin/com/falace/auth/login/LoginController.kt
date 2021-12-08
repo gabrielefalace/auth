@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.lang.IllegalArgumentException
 import java.util.*
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -26,6 +27,9 @@ class LoginController(val userService: UserService, val pendingResetRequestServi
     @PostMapping("/login")
     fun login(@RequestBody userDto: UserDto): String {
         val user = userService.findSingleUserByEmail(userDto.email, onlyVerifiedUsers)
+        if (user.externalSystem.isNotBlank() || user.hashedPassword.isBlank()) {
+            throw IllegalArgumentException("Email/Password login not allowed. Please connect via: ${user.externalSystem}.")
+        }
         if (bCryptPasswordEncoder.matches(userDto.password, user.hashedPassword)) {
             pendingResetRequestService.deleteAllMatching(userDto.email)
             return createJWT(UUID.randomUUID().toString(), ISSUER, user.email, secretKey)

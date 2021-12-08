@@ -13,6 +13,9 @@ class RegistrationService(val userRepo: UserRepo, val registrationVerificationRe
     fun registerUser(email: String, password: String) =
             userRepo.insert(User(email, bCryptPasswordEncoder.encode(password)))
 
+    fun registerExternalUser(email: String, name: String, externalSystem: String, externalId: String) =
+        userRepo.insert(User(email, "", false, externalSystem, externalId, name))
+
     fun updateUser(email: String, password: String) {
         val user = userRepo.findByEmail(email).first()
         user.hashedPassword = bCryptPasswordEncoder.encode(password)

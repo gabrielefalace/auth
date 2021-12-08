@@ -1,13 +1,18 @@
 package com.falace.auth.social
 
+import com.falace.auth.register.RegistrationService
+import com.falace.auth.user.UserService
+import com.falace.auth.utils.ISSUER
+import com.falace.auth.utils.createJWT
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
-import java.lang.IllegalArgumentException
 import java.net.URI
+import java.util.*
 
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -16,15 +21,19 @@ class FacebookConnectController {
 
     private val facebookBaseUrl = "https://graph.facebook.com"
 
-    @Value("\${social.facebook.appToken}")
-    var appToken: String = ""
+    @Value("\${auth.secretKey}")
+    var secretKey: String = ""
+
+    @Autowired
+    lateinit var userService: UserService
+
+    @Autowired
+    lateinit var registrationService: RegistrationService
 
     @GetMapping("/connect-facebook")
     fun connectFacebook(
-        @RequestParam("user-token") userAccessToken: String,
-        @RequestParam email: String
-    ) : String {
-        //val appAccessToken = appToken.replace("|", "%7C")
+        @RequestParam("user-token") userAccessToken: String
+    ): String {
         val facebookValidationEndpoint = "$facebookBaseUrl/me?access_token=$userAccessToken"
         val response = RestTemplate().getForEntity(URI(facebookValidationEndpoint), MeResponse::class.java)
 
@@ -38,9 +47,15 @@ class FacebookConnectController {
         val profileDataResponse =
             RestTemplate().getForObject(URI(facebookAdditionalDataEndpoint), UserResponse::class.java)
 
-        return profileDataResponse?.email ?: throw IllegalArgumentException("User doesn't have an email!")
+        val fbEmail = profileDataResponse?.email ?: throw IllegalArgumentException("User doesn't have an email!")
 
-        //TODO: lookup email; if not found, add user to the DB; either way, issue&return a token
+        val registeredUser = try {
+            userService.findSingleUserByEmail(fbEmail)
+        } catch (e: Exception) {
+            registrationService.registerExternalUser(fbEmail, user.name, "Facebook", user.id.toString())
+        }
+
+        return createJWT(UUID.randomUUID().toString(), ISSUER, fbEmail, secretKey)
 
     }
 
