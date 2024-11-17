@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(private val userRepo: UserRepo) {
 
+    /**
+     * Finds a single user by email.
+     */
     fun findSingleUserByEmail(email: String, onlyVerified: Boolean = false): User {
         val matchingUsers = userRepo.findByEmail(email)
         require(matchingUsers.size == 1) { "No single account for $email" }
